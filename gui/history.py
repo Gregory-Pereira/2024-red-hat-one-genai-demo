@@ -2,7 +2,6 @@ import streamlit as st
 
 from langchain.memory import ConversationBufferMemory
 from langchain.schema import HumanMessage, AIMessage
-from streamlit_chat import message
 
 
 class ChatHistory:
@@ -18,8 +17,8 @@ class ChatHistory:
         return f"Hello ! Ask me anything about {topic} 🤗"
 
     def initialize(self, topic):
-        message(self.default_greeting(), key='hi', avatar_style="adventurer", is_user=True)
-        message(self.default_prompt(topic), key='ai', avatar_style="thumbs")
+        st.message(self.default_greeting(), key='hi', avatar_style="adventurer", is_user=True)
+        st.message(self.default_prompt(topic), key='ai', avatar_style="thumbs")
 
     def reset(self):
         st.session_state["history"].clear()
@@ -32,11 +31,11 @@ class ChatHistory:
                 for i in range(len(messages)):
                     msg = messages[i]
                     if isinstance(msg, HumanMessage):
-                        message(
+                        st.message(
                             msg.content,
                             is_user=True,
                             key=f"{i}_user",
                             avatar_style="adventurer",
                         )
                     elif isinstance(msg, AIMessage):
-                        message(msg.content, key=str(i), avatar_style="thumbs")
+                        st.message(msg.content, key=str(i), avatar_style="thumbs")
